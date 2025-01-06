@@ -13,7 +13,7 @@ import moviepy.config as cfg
 import shutil
 from PIL import Image
 import time
-from upload_video import upload_video
+from upload_video2 import upload_video
 
 
 # from tts import extract_keywords,scrape_images
