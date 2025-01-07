@@ -14,8 +14,8 @@ import shutil
 from PIL import Image
 import time
 from upload_video2 import upload_video
-
-
+import schedule as sch
+import datetime
 # from tts import extract_keywords,scrape_images
 
 from downloads import path_download
@@ -307,6 +307,13 @@ each story."
 
 '''
 
+target_times = [
+    datetime.time(19, 26),  # 2:30 PM
+    datetime.time(15, 0),   # 3:00 PM
+    datetime.time(16, 15),  # 4:15 PM
+    datetime.time(22, 28),  # 10:28 PM
+]
+
 
 while True:
 
@@ -319,7 +326,8 @@ while True:
     
     asyncio.run(model.tts(cleaned_text=story))
     time.sleep(5)
-    audio_l = model.audio_length()    
+    audio_path = "audio.mp3" 
+    audio_l = model.audio_length(audio_path)    
     limit = model.calculate_images_from_audio(audio_l)
     print(limit)
 
@@ -336,7 +344,6 @@ while True:
 
 
     image_folder = path_download.path_for_image_downloder_cwd()
-    audio_path = "audio.mp3"  
     output_path = "output_video.mp4"  
     music_path = model.bg_music_selector(current_path.cwdd())
     bg_music_path = os.path.join(current_path.cwdd(), music_path)
@@ -354,6 +361,8 @@ while True:
             "keywords":"meme,reddit,footballstory",
             "privacyStatus":"public"
         }
+    
+    sch.main_single_run(target_times)
     upload_video(video_data)
     
     
