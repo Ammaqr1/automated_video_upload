@@ -20,6 +20,7 @@ import datetime
 
 from downloads import path_download
 from bg_music import current_path
+import streamlit as st
 
 
 
@@ -313,69 +314,74 @@ target_times = [
     datetime.time(16, 15),  # 4:15 PM
     datetime.time(22, 28),  # 10:28 PM
 ]
+st.title("Video Upload and Playback App")
 
+if st.button('Strart your process'):
 
-while True:
+    while True:
+        
+        st.title("Video Upload and Playback App")
 
-    story = model.model()
-    print(story)
+        # uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov", "mkv"])
+        
+        
+        story = model.model()
+        print(story)
 
-    model.delete_folders_in_directory()
-    
-    
-    
-    asyncio.run(model.tts(cleaned_text=story))
-    time.sleep(5)
-    audio_path = "audio.mp3" 
-    audio_l = model.audio_length(audio_path)    
-    limit = model.calculate_images_from_audio(audio_l)
-    print(limit)
-
-
-
-
-    output = model.model(scrape_prompt,cln_txt=story,model='mixtral-8x7b-32768',system_prompt=system_prompt)
-    print(output)
-    keys = model.keyword_sorting(output)
-    for i,phrase in enumerate(keys):
-        print(phrase)
-        val = model.clean_folder_name(phrase)
-        model.scrape_images(query=val,limit=limit + 1)
-
-
-    image_folder = path_download.path_for_image_downloder_cwd()
-    output_path = "output_video.mp4"  
-    music_path = model.bg_music_selector(current_path.cwdd())
-    bg_music_path = os.path.join(current_path.cwdd(), music_path)
+        model.delete_folders_in_directory()
+        
+        
+        
+        asyncio.run(model.tts(cleaned_text=story))
+        time.sleep(5)
+        audio_path = "audio.mp3" 
+        audio_l = model.audio_length(audio_path)    
+        limit = model.calculate_images_from_audio(audio_l)
+        print(limit)
 
 
 
-    model.create_video_from_images(image_folder,audio_path,output_path=output_path,bg_music_path=bg_music_path)
-    
-    # time.sleep(10*5)
-    
-    video_data = {
-            "file": r'C:\Users\ammar\Documents\from_scratch\output_video.mp4',
-            "title": "Interesting Football Story!",
-            "description": "#shorts \n Sharing the best football story for 2025",
-            "keywords":"meme,reddit,footballstory",
-            "privacyStatus":"public"
-        }
-    
-    sch.main_single_run(target_times)
-    upload_video(video_data)
-    
-    
-    print('successfully uploaded')
-    print('time to sleep ')
-    
-    time.sleep(5 * 100)
+
+        output = model.model(scrape_prompt,cln_txt=story,model='mixtral-8x7b-32768',system_prompt=system_prompt)
+        print(output)
+        keys = model.keyword_sorting(output)
+        for i,phrase in enumerate(keys):
+            print(phrase)
+            val = model.clean_folder_name(phrase)
+            model.scrape_images(query=val,limit=limit + 1)
 
 
-    print('deleted folder successfully')
-    
+        image_folder = path_download.path_for_image_downloder_cwd()
+        output_path = "output_video.mp4"  
+        music_path = model.bg_music_selector(current_path.cwdd())
+        bg_music_path = os.path.join(current_path.cwdd(), music_path)
 
+
+
+        model.create_video_from_images(image_folder,audio_path,output_path=output_path,bg_music_path=bg_music_path)
+        
+        # time.sleep(10*5)
+        
+        video_data = {
+                "file": r'C:\Users\ammar\Documents\from_scratch\output_video.mp4',
+                "title": "Interesting Football Story!",
+                "description": "#shorts \n Sharing the best football story for 2025",
+                "keywords":"meme,reddit,footballstory",
+                "privacyStatus":"public"
+            }
+        
+        sch.main_single_run(target_times)
+        upload_video(video_data)
+        
+        
+        print('successfully uploaded')
+        print('time to sleep ')
+        
 
 
         
-                    
+
+
+
+            
+                        
