@@ -11,9 +11,6 @@ apiclient
 google-auth 
 google-auth-oauthlib
 google-api-python-client
-<<<<<<< HEAD
-=======
 groq
->>>>>>> f6be054580829cf273c1055842e92ebd8ecf0566
 streamlit
 
